@@ -28,18 +28,57 @@ function XIcon({ className }: { className?: string }) {
   );
 }
 
+function LinkedInIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+      <rect width="4" height="12" x="2" y="9" />
+      <circle cx="4" cy="4" r="2" />
+    </svg>
+  );
+}
+
+function InstagramIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+    </svg>
+  );
+}
+
 const socialLinkClassName =
   "inline-flex text-white/90 transition-colors hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white";
 
 export function SiteFooter() {
   return (
     <footer className="bg-[#0b0b0b] text-white">
-      <div className="mx-auto max-w-[1440px] px-6 pt-20 pb-8 md:px-12 md:pt-28 lg:px-16">
+      <div className="mx-auto max-w-[1240px] px-4 pt-20 pb-4 md:px-12 md:pt-28 lg:px-16">
         <Image
           src="/images/Wanderlast-1.png"
           alt="Wanderlast"
           width={542}
           height={80}
+          loading="eager"
           className="h-14 w-auto xl:h-20"
         />
 
@@ -56,10 +95,7 @@ export function SiteFooter() {
               Subscribe for exclusive travel deals and inspiration.
             </p>
 
-            <form
-              onSubmit={(event) => event.preventDefault()}
-              className="mt-4 flex w-full max-w-[318px] items-center bg-[#2c2c2c] pr-3 pl-4 transition-colors focus-within:bg-[#333]"
-            >
+            <div className="mt-4 flex w-full max-w-[318px] items-center bg-[#2c2c2c] pr-3 pl-4 transition-colors focus-within:bg-[#333]">
               <label htmlFor="newsletter-email" className="sr-only">
                 Email address
               </label>
@@ -72,13 +108,13 @@ export function SiteFooter() {
                 className="h-[50px] w-full bg-transparent text-sm text-white outline-none placeholder:text-white/50"
               />
               <button
-                type="submit"
+                type="button"
                 aria-label="Subscribe"
                 className="grid size-8 shrink-0 place-items-center text-white/80 transition-colors hover:text-brand"
               >
                 <ArrowUpRight className="size-4" />
               </button>
-            </form>
+            </div>
           </div>
 
           <nav aria-label="Quick links">
@@ -144,7 +180,7 @@ export function SiteFooter() {
 
         <div className="mt-16 flex flex-col gap-6 border-t border-white/10 pt-6 sm:flex-row sm:items-center sm:justify-between md:mt-20">
           <p className="text-[13px] font-light text-white/70">
-            &copy; {new Date().getFullYear()} Wanderlust. All rights reserved.
+            &copy; 2026 Wanderlust. All rights reserved.
           </p>
 
           <div className="flex items-center gap-6">
@@ -164,7 +200,7 @@ export function SiteFooter() {
               aria-label="LinkedIn"
               className={socialLinkClassName}
             >
-              <Linkedin className="size-[18px]" />
+              <LinkedInIcon className="size-[18px]" />
             </a>
             <a
               href="https://www.instagram.com"
@@ -173,7 +209,7 @@ export function SiteFooter() {
               aria-label="Instagram"
               className={socialLinkClassName}
             >
-              <Instagram className="size-[18px]" />
+              <InstagramIcon className="size-[18px]" />
             </a>
           </div>
         </div>

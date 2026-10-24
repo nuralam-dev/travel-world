@@ -5,9 +5,10 @@ export function CtaBanner() {
   return (
     <section className="relative isolate overflow-hidden">
       <Image
-        src="/images/destinations/image6.png"
-        alt="Aerial view of an airplane wing over a tropical coastline"
+        src="/images/destinations/CTA.png"
+        alt="Aerial view of an airplane over a tropical island"
         fill
+        loading="eager"
         sizes="100vw"
         className="object-cover"
       />
