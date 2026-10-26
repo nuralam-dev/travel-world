@@ -1,7 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { SearchBar } from "@/components/search-bar";
-import { SiteHeader } from "@/components/site-header";
 
 export function Hero() {
   return (
@@ -14,8 +13,6 @@ export function Hero() {
         sizes="100vw"
         className="object-cover"
       />
-
-      <SiteHeader />
 
       <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 pt-24 pb-12 text-center md:pt-[8.875rem]">
         <h1 className="max-w-5xl text-[clamp(2.75rem,6.55vw,5.875rem)] leading-none font-light tracking-[-0.02em] text-white">

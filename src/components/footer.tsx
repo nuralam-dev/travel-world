@@ -69,15 +69,15 @@ function InstagramIcon({ className }: { className?: string }) {
 const socialLinkClassName =
   "inline-flex text-white/90 transition-colors hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white";
 
-export function SiteFooter() {
+export function Footer() {
   return (
-    <footer className="bg-[#0b0b0b] text-white">
+    <footer className="mt-auto bg-[#0b0b0b] text-white mt-5">
       <div className="mx-auto max-w-[1240px] px-4 pt-20 pb-4 md:px-12 md:pt-28 lg:px-16">
         <Image
           src="/images/Wanderlast-1.png"
           alt="Wanderlast"
-          width={542}
-          height={80}
+          width={400}
+          height={59}
           loading="eager"
           className="h-14 w-auto xl:h-20"
         />
