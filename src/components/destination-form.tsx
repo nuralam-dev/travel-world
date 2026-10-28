@@ -1,6 +1,7 @@
 "use client";
 
-import { PackageCheck, Trash2 } from "lucide-react";
+import { PackageCheck, Save, Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -15,6 +16,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/toast";
+import type { ApiDestination } from "@/lib/destination";
 
 // Simple list of categories the user can pick from.
 const categories = ["Beach", "Mountain", "City", "Countryside", "Island"];
@@ -37,11 +39,32 @@ const initialForm = {
 const fieldClassName =
   "h-11 rounded-md border-0 bg-muted px-3.5 text-sm text-ink placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/40 dark:bg-input/30";
 
-export function AddDestinationForm() {
-  const [form, setForm] = useState(initialForm);
+// Same form for adding and editing: without a destination it POSTs a new
+// package, with one it prefills the fields and PUTs the changes instead.
+export function DestinationForm({
+  destination,
+}: {
+  destination?: ApiDestination;
+}) {
+  const isEdit = destination !== undefined;
+
+  const [form, setForm] = useState(() => {
+    if (!destination) return initialForm;
+    return {
+      name: destination.name,
+      country: destination.country,
+      category: destination.category,
+      price: String(destination.price),
+      duration: destination.duration,
+      departure: destination.departure,
+      imageUrl: destination.imageUrl,
+      description: destination.description,
+    };
+  });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const router = useRouter();
 
   // ONE helper for all inputs: give it the field name and the new value.
   const update = (field: keyof typeof form, value: string) =>
@@ -61,13 +84,18 @@ export function AddDestinationForm() {
         price: Number(form.price),
       };
 
-      const res = await fetch("http://localhost:4000/add-destination", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const res = await fetch(
+        isEdit
+          ? `http://localhost:4000/destination/${destination._id}`
+          : "http://localhost:4000/add-destination",
+        {
+          method: isEdit ? "PUT" : "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
         },
-        body: JSON.stringify(body),
-      });
+      );
 
       // If the server replied with a problem (like 404 or 500),
       // jump to the catch block below.
@@ -78,22 +106,40 @@ export function AddDestinationForm() {
       const data = await res.json();
       console.log("Server response:", data);
 
-      setSuccess("Travel package added successfully!");
-      toast.add({
-        title: "Data submit successful",
-        type: "success",
-      });
-      setForm(initialForm); // clear the inputs for the next package
+      if (isEdit) {
+        toast.add({
+          title: "Changes saved successfully",
+          type: "success",
+        });
+        // Back to the details page, now showing the updated package.
+        router.push(`/destination/${destination._id}`);
+      } else {
+        setSuccess("Travel package added successfully!");
+        toast.add({
+          title: "Data submit successful",
+          type: "success",
+        });
+        setForm(initialForm); // clear the inputs for the next package
+      }
     } catch (err) {
       console.error(err);
-      setError("Could not add the package. Please try again.");
+      setError(
+        isEdit
+          ? "Could not save the changes. Please try again."
+          : "Could not add the package. Please try again.",
+      );
     } finally {
       setLoading(false);
     }
   };
 
-  // Cancel should clear everything, like starting over.
+  // Cancel should leave the form: back to the destination we were editing,
+  // or a clean slate when adding a new package.
   const handleCancel = () => {
+    if (isEdit) {
+      router.push(`/destination/${destination._id}`);
+      return;
+    }
     setForm(initialForm);
     setError("");
     setSuccess("");
@@ -257,8 +303,17 @@ export function AddDestinationForm() {
             disabled={loading}
             className="h-11 gap-2 rounded-md bg-brand px-5 text-white hover:bg-brand/90"
           >
-            <PackageCheck className="size-4" />
-            {loading ? "Saving..." : "Add Travel Package"}
+            {isEdit ? (
+              <>
+                <Save className="size-4" />
+                {loading ? "Saving..." : "Save Changes"}
+              </>
+            ) : (
+              <>
+                <PackageCheck className="size-4" />
+                {loading ? "Saving..." : "Add Travel Package"}
+              </>
+            )}
           </Button>
         </div>
       </form>

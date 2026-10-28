@@ -1,4 +1,4 @@
-import { AddDestinationForm } from "@/components/add-destination-form";
+import { DestinationForm } from "@/components/destination-form";
 
 export const metadata = {
   title: "Add New Travel Package | Travel World",
@@ -13,7 +13,7 @@ export default function AddDestinationPage() {
           Add New Travel Package
         </h1>
 
-        <AddDestinationForm />
+        <DestinationForm />
       </div>
     </section>
   );

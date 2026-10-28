@@ -9,17 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-export type Destination = {
-  id: string;
-  name: string;
-  country: string;
-  category: string;
-  price: number;
-  duration: string;
-  rating: number;
-  image: string;
-};
+import type { Destination } from "@/lib/destination";
 
 const ALL = "all";
 
